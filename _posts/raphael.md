@@ -1,7 +1,7 @@
 ---
 title: 'RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths'
 date: 2024-05-16
-permalink: /posts/raphael
+permalink: /posts/2024/05/raphael
 tags:
   - raphael
   - diffusion model
