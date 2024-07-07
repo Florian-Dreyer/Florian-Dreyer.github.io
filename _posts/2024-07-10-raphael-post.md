@@ -126,18 +126,21 @@ RAPHAEL Architecture
 As explained earlier, in general a Diffusion Model consists of two parts: the forward diffusion process and the reverse diffusion process.
 
 In the RAPHAEL model the forward diffusion process is implemented as described in the section about Diffusion Models. \
-For the reverse diffusion process RAPHAEL uses an U-Net Architecture as the denoising network. It consists of 16 transformer blocks, which employ two MoE layers. The first is a Time-MoE layer and the second a Space-MoE layer. 
+For the reverse diffusion process RAPHAEL uses an UNet Architecture as the denoising network. 
 
-The general structure of the used UNet-Architecture is shown below.
-
+The general structure of the used Denoising Network is shown below.
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/5a8bce05-40a7-403a-991a-927c5d3e13a9">
 
 Image from Xue et al. [[1]](#1)
 
-How are Mixture of Experts used?
+It takes noise and text as input and outputs images. \
+
+Now you may ask yourself "But where is the difference to the previously described general Diffusion Models?" and the answer to that are the Transformer Blocks.
+The UNet architecture deployed in the RAPHAEL model consists of 16 transformer blocks, and I will now go into detail about them.
+
+The Transformer Block
 ------
-In the RAPHAEL model MoEs are used in two layers in each of the 16 transformer blocks. \
 Every transformer block consists of four key components, the Self Attention layer, the Cross Attention layer, the Time-MoE layer and the Space-MoE layer as image below shows.
 
 
