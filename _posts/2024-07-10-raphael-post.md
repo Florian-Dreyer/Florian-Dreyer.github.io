@@ -95,7 +95,7 @@ The grey arrows represent skipping connections between the Downsampling and the 
 The green rectangles represent Upsample Blocks which takes data from the previous layer, data about the timestamp and the text embeddings and data from the skipping connection as the three inputs. It is used to predict the noise. \
 The orange rectangles represent Self-Attention Blocks which takes the data from the previous Downsample/Upsample Block as input. It is used to learn the connections between the different parts of the image. 
 
-Let me walk through the actual process of getting from $x_t$ to $x_{t-1}$
+Let me walk you through the actual process of getting from $x_t$ to $x_{t-1}$
 
 <img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/fd1e98d9-a785-4c69-bda2-0537fd3b016f">
 
