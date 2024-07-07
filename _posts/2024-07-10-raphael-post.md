@@ -134,7 +134,7 @@ The general structure of the used Denoising Network is shown below.
 
 Image from Xue et al. [[1]](#1)
 
-It takes noise and text as input and outputs images. \
+It takes noise and text as input and outputs images. 
 
 Now you may ask yourself "But where is the difference to the previously described general Diffusion Models?" and the answer to that are the Transformer Blocks.
 The UNet architecture deployed in the RAPHAEL model consists of 16 transformer blocks, and I will now go into detail about them.
