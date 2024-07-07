@@ -18,7 +18,6 @@ Why Diffusion Models?
 ======
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
 
-<!--- ![image](https://github.com/Florian-de/Florian-de.github.io/assets/64322175/21b10292-f31f-403d-8ef0-855d97dcfbe1) --->
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/de53ddee-3e90-4cae-97ee-e27ac328fca9">
 
 Image from Adobe [[2]](#2)
@@ -26,7 +25,7 @@ Image from Adobe [[2]](#2)
 Such technology can not only be used as a useful gadged for our daily lifes but also for professional use, for example for editing images for a commercial. \
 It brings even more advantages in the use for science. For example in Biology, scientists use Diffusion Models to improve the image quality of their microscopes, which helps them to gain new insights and overall accelerates their work. 
 
-A more radical application for Diffusion Models is in the field of chemistry where they are used to generate new molecules for a specific purpose, which vastly accelerates the process of finding the right molecule for a given problem, for example in drug discovery. One example of this is DiffSBDD, a Diffusion Model designed for Structure-based Drug Design, generating new molecules conditional on a protein pocket structure.
+A more radical application for Diffusion Models is in the field of chemistry where they are used to find new molecules for a specific purpose, which vastly accelerates the process of finding the right molecule for a given problem, for example in drug discovery. One example of this is EDM, a Diffusion Model that can generate molecules in 3D.
 
 <img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/6a157792-318e-4c63-8daa-80ded6fc6fdf">
 
