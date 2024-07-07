@@ -28,16 +28,20 @@ It brings even more advantages in the use for science. For example in Biology, s
 
 A more radical application for Diffusion Models is in the field of chemistry where they are used to generate new molecules for a specific purpose, which vastly accelerates the process of finding the right molecule for a given problem, for example in drug discovery. One example of this is DiffSBDD, a Diffusion Model designed for Structure-based Drug Design, generating new molecules conditional on a protein pocket structure.
 
-<!--- ![image](https://github.com/Florian-de/Florian-de.github.io/assets/64322175/d07a01e7-dc80-4a81-a979-bb9537b01c5b) --->
-<img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/da79eb30-c39d-4977-bb6e-d3821ba0a49d">
+<img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/6a157792-318e-4c63-8daa-80ded6fc6fdf">
 
-Image from Charlie Harris [[3]](#3)
+Image from Hoogeboom et al. [[3]](#3)
 
-Recent models like Stable Diffusion or DALL-E have shown great success but often lack the ability to accurately display text in the generated images like shown below:
+Why RAPHAEL?
+======
+RAPHAEL has three main objectives:
+* Higher aesthetic appeal
+* Accurate reflection of concepts in generated images
+* Accurately representing text in generated images
 
-<img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/df96156c-564a-4f49-afb0-7e6daae53899">
+<img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/5681446f-a574-46f3-aa80-6afbcbef8515">
 
-RAPHAEL aims at accurately displaying text in generated images and overall improving image quality.
+Image from Xue et al. [[1]](#1)
 
 What is a Diffusion Model?
 ======
@@ -240,7 +244,7 @@ References
 ======
 
 <a id="1">[1]</a> 
-Zeyue Xue et al. (May 2023),
+Xue, Zeyue et al. (May 2023),
 "RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths". 
 [arXiv:2305.18295](https://arxiv.org/abs/2305.18295)
 
@@ -249,7 +253,7 @@ Adobe,
 [Generative Fill & Expand](https://helpx.adobe.com/photoshop/using/generative-fill.html)
 
 <a id="3">[3]</a> 
-Charlie Harris (Jun 2023), 
+Harris, Charlie (Jun 2023), 
 [Diffusion Models in Generative Chemistry for Drug Design](https://medium.com/@cch57/exploring-the-promise-of-generative-models-in-chemistry-an-introduction-to-diffusion-models-31530e9d1dcb)
 
 <a id="4">[4]</a> 
