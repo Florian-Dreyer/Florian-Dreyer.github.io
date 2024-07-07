@@ -75,7 +75,6 @@ For efficient computation the entire process from $x_0$ to $x_t$ can be calculat
 Reverse diffusion process
 ------
 In the reverse diffusion process the model tries to predict the total noise for each timestep starting with the pure noise $x_t$ and ending in a denoised image $x_0$. \
-The process for each step can be described by the formula $x_{t-1} = \frac{1}{\sqrt{\alpha_t}}(x_t - \frac{\beta_t}{\sqrt{1-\bar\alpha}}\epsilon_\theta(x_t, t)) + \sqrt{\beta_t}\epsilon$ where $\epsilon_\theta(x_t, t)$ is output of the prediction model. \
 For the prediction of the noise models typically use a modified UNet Neural Network Architecture. 
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/145c6a61-f5cf-447d-b5d1-e35c4f31b526">
@@ -83,9 +82,8 @@ For the prediction of the noise models typically use a modified UNet Neural Netw
 Image from Kemal Erdem [[6]](#6)
 
 An example for such an architecture for a text-conditional model is shown above. \
-It takes the total noise an text as input. \
+It takes the total noise, the time step and text as input. \
 The text is embedded by an encoder network which takes the text as input and has vectors as output. Each vector represents a single text token. Like shown below the embedding vectors transport semantics, for example the difference between the embedding of man and woman is similiar to the difference of uncle and aunt. 
-
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/66038dff-15fc-417e-8516-1b5d42f77937">
 
@@ -96,6 +94,17 @@ The blue rectangles represent Downsample Blocks which takes data from the previo
 The grey arrows represent skipping connections between the Downsampling and the Upsampling Blocks to prevent loss of information. \
 The green rectangles represent Upsample Blocks which takes data from the previous layer, data about the timestamp and the text embeddings and data from the skipping connection as the three inputs. It is used to predict the noise. \
 The orange rectangles represent Self-Attention Blocks which takes the data from the previous Downsample/Upsample Block as input. It is used to learn the connections between the different parts of the image. 
+
+Let me walk through the actual process of getting from $x_t$ to $x_{t-1}$
+
+<img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/fd1e98d9-a785-4c69-bda2-0537fd3b016f">
+
+Image from Steins [[4]](#4)
+
+As the image above shows on the left side, the UNet gets the noisy image, the time step embedding and for text conditional models such as RAPHAEL also text as input. \
+The output is the predicted total noise in the image $\epsilon_{\theta}(x_t, t)$, so not the noise to get from $x_t$ to $x_{t-1}$ but the entire noise in $x_t$. \
+To get to $x_{t-1}$ we follow the computation shown on the right side of the image above. \
+We take the input $x_t$ and subtract a part, but only a part, of the predicted noise $\epsilon_{\theta}(x_t, t)$ from it. The details of this computation are shown in the formula in the image above.
 
 Background - What are Mixture of Experts?
 ======
