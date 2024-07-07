@@ -13,6 +13,7 @@ tags:
 
 In recent years Generative Artificial Intelligence has gained a lot of popularity. More and more people use it in their daily and professional life. Diffusion Models became popular with models like Stable Diffusion and DALL-E which showed the public what Diffusion Models are able to do. \
 In this blog post, I aim to introduce and explain a new model, RAPHAEL, which outperforms models like Stable Diffusion and focuses on accurately displaying text in the generated images [[1]](#1).
+I will start with the motivation behind Diffusion Models and RAPHAEL in specific, after that I will give you some background knowlegde about Diffusion Models and Mixture of Experts. Than I will explain the architecture of RAPHAEL to you followed by an ablation study and some experiments. Next I will show you a benchmark which compares RAPHAEL to other models. Finally I will go into discussion about the model.
 
 Why Diffusion Models?
 ======
@@ -44,20 +45,20 @@ Image from Xue et al. [[1]](#1)
 
 The first objective, higher aesthetic appeal, is just a better looking image. As we can see with the images above, especially with the ones in the first row, RAPHAEL generates very aesthetic appealing images, especially compared to the other models.
 
-So what do I mean by "accurate reflection of concepts in generated images"?
+So what do I mean by "accurate reflection of concepts in generated images"? \
 A good example of that are the images in the second row. 
 The accurate reflection of the concepts in the text would be to generate an image with five cars that are on a road, as the text says.
 As we can see, RAPHAEL is the only model of the ones shown above that actually shows five cars and not less or more.
 
-Most important is the third objective of accurately representing text in generated images.
+Most important is the third objective of accurately representing text in generated images. \
 The third row is a great example of that.
 Many Diffusion Models fail at displaying text in the generated images, they often just create fantasy text.
 RAPHAEL successfully displays the word "RAPHAEL" in the image as the text says, in comparison other models like DALL-E2 make up words like "Raahel".
 
-What is a Diffusion Model?
+Background - What is a Diffusion Model?
 ======
-Diffusion Models have the goal to generate images by removing noise from pure noise.  
-<!--- ![image](https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ca2a8f9b-b597-473c-af9d-9263b7f4cb41) --->
+Diffusion Models learn to predict noise and remove it to restore structure in data.
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ca2a8f9b-b597-473c-af9d-9263b7f4cb41">
 
 Image from Jaskaran Bhatia [[4]](#4)
@@ -66,7 +67,7 @@ As shown in the picture above, Diffusion Models constist of two parts, the forwa
 
 Forward diffusion process
 ------
-In the forward diffusion process the model takes an image as input and adds random noise to the image step by step starting with the input image $x_0$ and ending in pure noise $x_t$. \
+In the forward diffusion process the model takes an image as input and adds step by step random noise to the image starting with the input image $x_0$ and ending in pure noise $x_t$. \
 In each step the process is defined as $q(x_t|x_{t−1}) := \mathcal{N}(x_t; \sqrt{1 − \beta_t}x_{t−1},\beta_tI)$ where $q$ is the process, $x_t$ the output of the current step, $x_{t-1}$ the output of the previous step and $\mathcal{N}$ the normal distribution with $\sqrt{1 − β_t}x_{t−1}$ as the mean $\mu$ and $\beta_tI$ as the variance $\sigma^2$. \
 During this process $\beta_t$ is controlled by a schedule and has values in the range of 0 and 1. Such a schedule could be as simple as a linear schedule which would increase $\beta_t$ by a constant size each step, but in practice more advanced schedules are used. \
 For efficient computation the entire process from $x_0$ to $x_t$ can be calculated using a closed form $q(x_t|x_0) = \mathcal{N}(x_t;\sqrt{\bar\alpha_t}x_0, (1 − \bar\alpha_t)I)$ where $\alpha_t := 1 − β_t$ and $\bar\alpha_t := \Pi^{t}_{s=1} \alpha_s$ [[5]](#5).
@@ -76,7 +77,7 @@ Reverse diffusion process
 In the reverse diffusion process the model tries to predict the total noise for each timestep starting with the pure noise $x_t$ and ending in a denoised image $x_0$. \
 The process for each step can be described by the formula $x_{t-1} = \frac{1}{\sqrt{\alpha_t}}(x_t - \frac{\beta_t}{\sqrt{1-\bar\alpha}}\epsilon_\theta(x_t, t)) + \sqrt{\beta_t}\epsilon$ where $\epsilon_\theta(x_t, t)$ is output of the prediction model. \
 For the prediction of the noise models typically use a modified UNet Neural Network Architecture. 
-<!--- <img width="920" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/145c6a61-f5cf-447d-b5d1-e35c4f31b526"> --->
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/145c6a61-f5cf-447d-b5d1-e35c4f31b526">
 
 Image from Kemal Erdem [[6]](#6)
@@ -85,7 +86,7 @@ An example for such an architecture for a text-conditional model is shown above.
 It takes the total noise an text as input. \
 The text is embedded by an encoder network which takes the text as input and has vectors as output. Each vector represents a single text token. Like shown below the embedding vectors transport semantics, for example the difference between the embedding of man and woman is similiar to the difference of uncle and aunt. 
 
-<!--- <img width="442" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/91b74c71-9a42-4c27-8be5-f26389a05fda"> --->
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/66038dff-15fc-417e-8516-1b5d42f77937">
 
 Image from 3Blue1Brown [[7]](#7)
@@ -96,47 +97,19 @@ The grey arrows represent skipping connections between the Downsampling and the 
 The green rectangles represent Upsample Blocks which takes data from the previous layer, data about the timestamp and the text embeddings and data from the skipping connection as the three inputs. It is used to predict the noise. \
 The orange rectangles represent Self-Attention Blocks which takes the data from the previous Downsample/Upsample Block as input. It is used to learn the connections between the different parts of the image. 
 
-What are Mixture of Experts?
+Background - What are Mixture of Experts?
 ======
 In general Mixture of Experts (MoE) is the method of using multiple expert models instead of using just a single big model and therefore dividing a problem. \
 A MoE Layer consists of a gating function and many experts. The experts share the same architectur and are trained by the same algorithm. The gating function assigns input data to the best experts. To speed up the inference time a sparse gating function is used, which assigns the input only to the top-K experts. [[8]](#8) When we use a sparse gating function we speak of Space MoE Layers. \
 A MoE Layer takes the data from the previous layer as input data and outputs sum kind of weighted average of the outputs of the experts.[[9]](#9)
 
-<!---  ![image](https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ce125e88-cd7f-4d73-9bed-7e92494039e0) --->
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ce125e88-cd7f-4d73-9bed-7e92494039e0">
 
 Image from Hugging Face [[9]](#9)
 
 In Transformer blocks the MoE layer is normally implemented by replacing the MLP/FFN after the Attention Layer as shown in the image above. \
 The use of MoE can provide benefits like overall better performance, efficient pretraining or faster inference compared to the use of a single MLP/FFN.
-
-Mapping to a Deep Learning problem
-======
-
-Input 
-------
-The input for the RAPHAEL model consists of images, complete noise and text. \
-The images are used in the forward diffusion process as explained in the section for Diffusion Models. \
-In the "application phase" we only need the complete noise and text which are used by the forward process to generate the images. 
-
-Output
-------
-The output of the model are image tokens which are decoded to images by an image decoder.
-
-Loss function 
-------
-
-The model uses two loss function combined, by addding them: $L = L_{denoise} + L_{edge}$
-
-The first loss function $L_{denoise}=E_{t,x_0,\epsilon ∼\mathcal{N}(0,I)}\Vert \epsilon −D_\theta(x_t,t)\Vert_2^2$ is used for the denoising neural network. \
-The loss function $L_{edge}=Focal(P_θ(M),I_{edge})$ is used to train the transformer blocks with Edge-supervised Learning, Focal denotes the focal loss employed to measure the discrepancy between the predicted and the “ground-truth” edge maps. A focal loss is a modified cross-entropy loss. It has the benefit of performing better with class imbalances. [[10]](#10)
-
-Further settings for training 
-------
-The model uses an AdamW optimizer with a learning rate of 1e-04, weight decay set to 0.0 and a batch size of 2,000 for training. 
-
-AdamW optimization uses a stochastic gradient descent approach that is based on adaptive estimation of first-order and second-order moments with an added method to decay weights per the techniques discussed in the paper, 'Decoupled Weight Decay Regularization' [[11]](#11) [[12]](#12). \
-Weight decay or L2 regularization is a regularization technique where the sum of the squares of the weights from the model is added to the loss function, what results in punishing the model for large weights. In contrast to L1 regularization it does not lead to sparse weights.
 
 RAPHAEL Architecture
 ======
@@ -148,16 +121,20 @@ For the reverse diffusion process RAPHAEL uses an U-Net Architecture as the deno
 
 The general structure of the used UNet-Architecture is shown below.
 
-<!--- ![image](https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/1809bc49-fbbd-4402-8717-484f0403f9c1) --->
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/5a8bce05-40a7-403a-991a-927c5d3e13a9">
+
+Image from Xue et al. [[1]](#1)
 
 How are Mixture of Experts used?
 ------
 In the RAPHAEL model MoEs are used in two layers in each of the 16 transformer blocks. \
 Every transformer block consists of four key components, the Self Attention layer, the Cross Attention layer, the Time-MoE layer and the Space-MoE layer as image below shows.
 
-<!--- <img width="414" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/e5d19f96-5af1-4ba7-97d7-80fc75212dfc"> --->
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/dba935c6-beb3-4891-8b5e-dfa3efd42295">
+
+Image from Xue et al. [[1]](#1)
 
 For an intuitive understanding you can think of the different paths which the MoEs produce as different "painters" which are all responsible for a different point of the image, as the authors of the paper write.
 
@@ -168,14 +145,17 @@ Time-MoE are MoE Layers which assign the image in different denoising time steps
 The Time-MoE Layer takes the feature data from the Cross Attention layer as input. The output of the layer is the output of the selected expert. \
 A Time-MoE layer constists of a Text Gate Network and the expert models as shown in the image below. It takes the time step and the features as input.
 
-<!--- <img width="225" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/d3d0eb5b-1656-4932-83ca-f3c4638861f0"> --->
+
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/f6c0fbff-be5b-4a2e-afc9-11bca2800b1e">
+
+Image from Xue et al. [[1]](#1)
 
 The Time Gate Network is implemented as a feed forward network and chooses experts for the different features, this can be formulated with $h\prime(x) = te_{t_{router}(t_i)}(h_c(x_t))$ where $h_c(x_t)$ represents the features from the Cross Attention layer and $t_{router}(t_i)=argmax(softmax(G′(E′_θ(t_i))+ϵ))$ which returns the index of the chosen expert. In the formula $te_i$ represents the differen experts. \
 An example of the result of the assignments can be seen in the image below:
 
-<!--- <img width="597" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/37ea0970-9829-4005-9946-cb757f6d62ba"> --->
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/8eca0dbc-7edc-4985-bfaa-1440bc4df51e">
+
+Image from Xue et al. [[1]](#1)
 
 What are Space-MoE?
 ------
@@ -186,15 +166,17 @@ $\frac{1}{n_y} \Sigma_{i=1}^{n_y} e_{route(y_i)}(h′(x_t) \cdot M_i)$. $M_i$ is
 
 A Space-MoE layer constists of a Text Gate Network and the expert models as shown in the image below. It takes text as input.
 
-<!--- <img width="335" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/3cefc66c-c482-49a0-a75b-f0bbafaba431"> --->
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/eba93db2-8496-464a-8262-0f009b1c3759">
+
+Image from Xue et al. [[1]](#1)
 
 The Text Gate Network does the assignment using the formula \$route(y_i)=argmax(softmax(G(E_θ(y_i))+ϵ))\$ which returns the index of the corresponding expert.
 It is implemented as a feed forward network with text tokens as input. \
 As a result of the Space-MoE Layer, as shown in the picture below, different categories activate different diffusion paths 
 
-<!--- <img width="316" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/681216f0-19cd-4359-abef-51d55217c280"> --->
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/287fa16b-94d1-412d-87a9-e51d9fd3a60f">
+
+Image from Xue et al. [[1]](#1)
 
 What is Edge-supervised Learning?
 ------
@@ -204,20 +186,20 @@ Since with larger timesteps t the attention map loses detail a hyperparameter is
 
 The image below shows the attention map from the transformer block and the edges extracted by the edge detector next to the image.
 
-<!--- <img width="698" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/74df4905-9526-4a0f-aaa6-a7faa9e8b7fa"> --->
 <img width="750" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/74df4905-9526-4a0f-aaa6-a7faa9e8b7fa">
+
+Image from Xue et al. [[1]](#1)
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
-Experiments and Benchmarks
+Ablation Study
 ======
 
-Experiments
-------
-The LAION-5B and some more internal datasets are used for the experiments. Images from LAION-5B were previously filtered using the same aesthetic scorer as Stable Diffusion, only images with a score of at least 4.7 and without watermarks are used. The text description from the LAION-5B datasets were cleaned by removing useless information, for example HTML tags.  
+The LAION-5B and some more internal datasets are used for the ablation study. Images from LAION-5B were previously filtered using the same aesthetic scorer as Stable Diffusion, only images with a score of at least 4.7 and without watermarks are used. The text description from the LAION-5B datasets were cleaned by removing useless information, for example HTML tags.  
 
-<!--- <img width="634" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/86940ad0-1702-42b7-9c18-52113266eed3"> --->
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/23f35b64-ee85-4886-b310-c7e28d1a2585">
+
+Image from Xue et al. [[1]](#1)
 
 The hyperparameter \$\alpha\$ results in an optimal FID-5k score at about 0.2, smaller and larger alpha values decrease the performance. \
 This is explained by the fact that $\alpha$ is part of the threshold which decides if an entry in the Cross Attention Map is 0 or 1, so a bigger $\alpha$ leads to a sparser Map, while a smaller to a less sparser Map. As the paper describes, the value of 0.2 implies a balance between preserving adequate features and avoiding the use of unimportant features. \
@@ -233,12 +215,22 @@ This shows that a larger number of both Space-MoE and Time-MoE has a positive ef
 But on the other hand the computational complexity grows with an increasing number of experts. \
 This results makes sense since a larger number of experts increases the number of computations and therefore slows down the model. But overall a model using a sparse MoE approach such as RAPHAEL does will usually be more effient than a model using just a single more complex FFN/MLP. 
 
+Experiments
+======
+
+# TODO
+
+<img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/118267ec-fff4-4bc6-ad7f-58c2a306a9eb">
+
+Image from Xue et al. [[1]](#1)
+
 Benchmarks
-------
+======
 For benchmarking 30,000 images from the MS-COCO 256 x 256 dataset and the zero-shot Frechet Inception Distance (FID) were used. The FID score is usually calculated using the Inception v3 model which compares the original dataset to the generated one in quality and diversity. 
 
-<!--- <img width="640" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/38885b83-95db-40fd-aa1b-bfce8e309df2"> --->
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/a226c0c8-8725-4466-bb76-d4c03b79db10">
+
+Image from Xue et al. [[1]](#1)
 
 The table shows that RAPHAEL outperforms all competitors on the Zero-shot FID-30k. \
 Especially in comparison with the two popular models Stable Diffusion and DALL-E it beets them by 21% and 37%.
@@ -250,6 +242,11 @@ The most obvious advantage of the model is the more accurate text in the generat
 On the other hand is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, so in total about 1.46 million A100 GPU hours, in comparison Stable Diffusion was trained for about 150,000 A100 GPU hours [[13]](#13). So the GPU usage for the training of RAPHAEL was about 10x the GPU usage for Stable Diffusion. \
 Another advantage is that MoE Architectures make the models more efficient during inference due to sparse assignements. \
 The fact that the model is not open source is also a drawback, since it reduces the benefit for the research community.
+
+A possible future improvement is to enable the model to generate not only images but also videos like OpenAI did with Sora. 
+The generation of videos would open completely new usecases for the model.
+
+To sum it up RAPHAEL can generate images with accurate text representation, accurate reflection of concepts and aesthetic appeal beating competitors like Stable Diffusion or Dall-E2.
 
 References
 ======
