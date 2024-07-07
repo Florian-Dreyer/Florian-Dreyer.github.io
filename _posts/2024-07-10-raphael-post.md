@@ -1,7 +1,7 @@
 ---
 title: 'RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths'
-date: 2024-06-01
-permalink: /posts/2024/05/raphael-post
+date: 2024-07-10
+permalink: /posts/2024/07/raphael-post
 categories: blog
 tags:
   - RAPHAEL
