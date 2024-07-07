@@ -77,7 +77,8 @@ Reverse diffusion process
 In the reverse diffusion process the model tries to predict the total noise for each timestep starting with the pure noise $x_t$ and ending in a denoised image $x_0$. \
 For the prediction of the noise models typically use a modified UNet Neural Network Architecture. 
 
-<img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/145c6a61-f5cf-447d-b5d1-e35c4f31b526">
+<img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/e72822b6-8866-4494-af7c-30b0365c55ca">
+
 
 Image from Kemal Erdem [[6]](#6)
 
