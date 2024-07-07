@@ -42,6 +42,18 @@ RAPHAEL has three main objectives:
 
 Image from Xue et al. [[1]](#1)
 
+The first objective, higher aesthetic appeal, is just a better looking image. As we can see with the images above, especially with the ones in the first row, RAPHAEL generates very aesthetic appealing images, especially compared to the other models.
+
+So what do I mean by "accurate reflection of concepts in generated images"?
+A good example of that are the images in the second row. 
+The accurate reflection of the concepts in the text would be to generate an image with five cars that are on a road, as the text says.
+As we can see, RAPHAEL is the only model of the ones shown above that actually shows five cars and not less or more.
+
+Most important is the third objective of accurately representing text in generated images.
+The third row is a great example of that.
+Many Diffusion Models fail at displaying text in the generated images, they often just create fantasy text.
+RAPHAEL successfully displays the word "RAPHAEL" in the image as the text says, in comparison other models like DALL-E2 make up words like "Raahel".
+
 What is a Diffusion Model?
 ======
 Diffusion Models have the goal to generate images by removing noise from pure noise.  
