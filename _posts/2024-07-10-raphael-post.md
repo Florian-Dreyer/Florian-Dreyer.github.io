@@ -1,6 +1,6 @@
 ---
 title: 'RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths'
-date: 2024-07-10
+date: 2024-07-08
 permalink: /posts/2024/07/raphael-post
 categories: blog
 tags:
@@ -203,7 +203,7 @@ For the first part $L_{\mathrm{denoise}} = E_{t,x_0,ϵ∼N(0,I)} ∥ϵ − D_θ 
 
 <span style="color: #064273;">What are Time-MoE?</span>
 ------
-Time-MoE are MoE Layers which assign the image in different denoising time steps to different expert models. 
+Time-MoE are MoE layers which assign the image in different denoising time steps to different expert models. 
 
 The Time-MoE Layer takes the feature data from the Cross Attention layer as input. The output of the layer is the output of the selected expert. \
 A Time-MoE layer constists of a Text Gate Network and the expert models as shown in the image below. It takes the time step and the features as input.
@@ -213,7 +213,7 @@ A Time-MoE layer constists of a Text Gate Network and the expert models as shown
 
 Image from Xue et al. [[1]](#1)
 
-The Time Gate Network is implemented as a feed forward network and chooses experts for the different features, this can be formulated with $h\prime(x) = te_{t_{\mathrm{router}}(t_i)}(h_c(x_t))$ where $h_c(x_t)$ represents the features from the Cross Attention layer and $t_{\mathrm{router}}(t_i)=\mathrm{argmax}(\mathrm{softmax}(G′(E′_θ(t_i))+ϵ))$ which returns the index of the chosen expert. In the formula $te_i$ represents the differen experts. \
+The Time Gate Network is implemented as a feed forward network and chooses experts for the different features, this can be formulated with $h\prime(x) = te_{t_{\mathrm{router}}(t_i)}(h_c(x_t))$ where $h_c(x_t)$ represents the features from the Cross Attention layer and $t_{\mathrm{router}}(t_i)=\mathrm{argmax}(\mathrm{softmax}(G′(E′_θ(t_i))+ϵ))$ which returns the index of the chosen expert. In the formula $te_i$ represents the different experts. \
 An example of the result of the assignments can be seen in the image below:
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/8eca0dbc-7edc-4985-bfaa-1440bc4df51e">
@@ -222,7 +222,7 @@ Image from Xue et al. [[1]](#1)
 
 <span style="color: #064273;">What are Space-MoE?</span>
 ------
-Space-MoE is a MoE Layer which assigns specific text tokens to their corresponding image regions. \
+Space-MoE is a MoE layer which assigns specific text tokens to their corresponding image regions. \
 The layer takes the data from the Time-MoE layer as input. \
 The output of the Space-MoE Layer is built by taking the mean of all expert models, calculated by the following formula: 
 $\frac{1}{n_y} \Sigma_{i=1}^{n_y} e_{\mathrm{route}(y_i)}(h′(x_t) \cdot M_i)$. $M_i$ is a binary two-dimensional matrix which can be understood as the image region the i-th text token should correspond to. $\cdot$ is the hadamard product and $h\prime(x_t)$ are the features from the Time-MoE layer.  
@@ -267,18 +267,18 @@ The LAION-5B and some more internal datasets are used for the ablation study. Im
 Image from Xue et al. [[1]](#1)
 
 The hyperparameter \$\alpha\$ results in an optimal FID-5k score at about 0.2, smaller and larger alpha values decrease the performance. \
-This is explained by the fact that $\alpha$ is part of the threshold which decides if an entry in the Cross Attention Map is 0 or 1, so a bigger $\alpha$ leads to a sparser Map, while a smaller to a less sparser Map. As the paper describes, the value of 0.2 implies a balance between preserving adequate features and avoiding the use of unimportant features. \
+This is explained by the fact that $\alpha$ is part of the threshold which decides if an entry in the Cross Attention Map is 0 or not, so a bigger $\alpha$ leads to a sparser Map, while a smaller to a less sparser Map. As the paper describes, the value of 0.2 implies a balance between preserving adequate features and avoiding the use of unimportant features. \
 The hyperparameter \$T_c\$ is optimal at about 500, for smaller values it slowly decreases, for bigger it decreases fast. \
-The result is logical, because a small $T_c$ stops edge-supervised learning earlier which can result in worse results. On the other side a large $T_c$ stops edge-supervised learning very late which can also worsen the results, because the edge detector module is no longer able to retrieve useful information from the image at that timestep.
+The result is logical, because a small $T_c$ stops edge-supervised learning earlier which can result in worse results, because the Edge-supervised Learning was used in fewer steps. On the other side a large $T_c$ stops edge-supervised learning very late which can also worsen the results, because the edge detection module is no longer able to retrieve useful information from the image at that timestep.
 
 Experiments between the CLIP score and FID-5k show that the model with all three Space-MoE, Time-MoE and Edge-supervised Learning is overall the best one. \
-The best FID-5k value is achieved at a CLIP score at about 0.33 for all models except the model without Space-MoE which has its peak at a CLIP score of about 0.315. Since we want to achieve a high CLIP score and a low FID-5k value, the model with all the modules is as previously mentioned the best one. This implies that all modules contribute effectively. Interesting is also that the model without Space-MoE has its FID-5k peak with a significantly lower CLIP score than the other models while having a quite similiar FID-5k value compared to the model without Time-MoE and the model without Edge-supervised learning. This implies that the Space-MoE have a big contribution to the better text alignment of RAPHAEL.
+The best FID-5k value is achieved at a CLIP score of about 0.33 for all models except the model without Space-MoE which has its peak at a CLIP score of about 0.315. Since we want to achieve a high CLIP score and a low FID-5k value, the model with all the modules is as previously mentioned the best one. This implies that all modules contribute effectively. Interesting is also that the model without Space-MoE has its FID-5k peak with a significantly lower CLIP score than the other models while having a quite similiar FID-5k value compared to the model without Time-MoE and the model without Edge-supervised learning. This implies that the Space-MoE have a big contribution to the better text and image similarity of RAPHAEL, since the CLIP score measures the text and image similarity.
 
 The number of Experts can influence the FID-5k score and the computational complexity. \
 The FID-5k score gets better very fast at the beginning but flattens out quite fast, for the Time-MoE earlier than for the Space-MoE. \
 This shows that a larger number of both Space-MoE and Time-MoE has a positive effect on the quality of the output. 
 But on the other hand the computational complexity grows with an increasing number of experts. \
-This results makes sense since a larger number of experts increases the number of computations and therefore slows down the model. But overall a model using a sparse MoE approach such as RAPHAEL does will usually be more effient than a model using just a single more complex FFN/MLP. 
+This results make sense since a larger number of experts increases the number of computations and therefore slows down the model. But overall a model using a sparse MoE approach such as RAPHAEL does will usually be more effient than a model using just a single more complex FFN/MLP. 
 
 <span style="color: #064273;">Experiments</span>
 ======
@@ -293,7 +293,7 @@ The first objective was a higher aesthetic appeal. \
 With the three images below we can see that they are very aesthetic appealing and have a very high overall quality. 
 The images also show that RAPHAEL is capable of generating images with different styles, so not only photorealistic or cartoon style but many different. 
 
-The second objective was accurate reflection of concepts in generated images. \
+The second objective was accurate reflection of concepts in the generated images. \
 I think the second image is a great example for that, if you go through the text that was used to generate the image you can find all the concepts like the waterfalls, streams or pools of golden glowing bioluminescent water from the text in the generated image.
 
 For the third objective, accurately representing text in generated images, there are no further examples in the paper, but I think the image below from the beginning shows that the model is able to achieve this objective. 
@@ -316,8 +316,8 @@ Especially in comparison with the two popular models Stable Diffusion and DALL-E
 <span style="color: #064273;">Discussion</span>
 ======
 
-The most obvious advantage of the model is the more accurate text in the generated images and the overall higher image quality. As discussed in the experiments section, the Space-MoE improve the text allignment a lot. But all three key differences from RAPHAEL, the Space-MoE, the Time-MoE and the Edge-supervised Learning distribute equally to the image quality. This can be derived from the fact, that as in the experiments section discussed the models without one of them all peak at about the same FID-5k value. \
-On the other hand is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, so in total about 1.46 million A100 GPU hours, in comparison Stable Diffusion was trained for about 150,000 A100 GPU hours [[10]](#10). So the GPU usage for the training of RAPHAEL was about 10x the GPU usage for Stable Diffusion. \
+The most obvious advantage of the model is the more accurate text in the generated images and the overall higher image quality. As discussed in the experiments section, the Space-MoE improve the text alignment a lot. But all three key differences from RAPHAEL, the Space-MoE, the Time-MoE and the Edge-supervised Learning distribute equally to the image quality. This can be derived from the fact, that as in the experiments section discussed the models without one of them all peak at about the same FID-5k value. \
+On the other hand is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, so in total about 1.46 million A100 GPU hours, in comparison Stable Diffusion was trained for about 150,000 A100 GPU hours [[10]](#10). The GPU usage for the training of RAPHAEL was about 10x the GPU usage for Stable Diffusion. \
 Another advantage is that MoE Architectures make the models more efficient during inference due to sparse assignements. \
 The fact that the model is not open source is also a drawback, since it reduces the benefit for the research community.
 
