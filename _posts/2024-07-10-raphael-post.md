@@ -109,16 +109,19 @@ We take the input $x_t$ and subtract a part, but only a part, of the predicted n
 
 Background - What are Mixture of Experts?
 ======
-In general Mixture of Experts (MoE) is the method of using multiple expert models instead of using just a single big model and therefore dividing a problem. \
-A MoE Layer consists of a gating function and many experts. The experts share the same architectur and are trained by the same algorithm. The gating function assigns input data to the best experts. To speed up the inference time a sparse gating function is used, which assigns the input only to the top-K experts. [[8]](#8) When we use a sparse gating function we speak of Space MoE Layers. \
-A MoE Layer takes the data from the previous layer as input data and outputs sum kind of weighted average of the outputs of the experts.[[9]](#9)
-
+In general Mixture of Experts (MoE) is the method of replacing a single FFN layer with an expert layer consisting of a Router and multiple FFN and therefore dividing a problem. \
+The experts (FFN) share the same architectur and are trained by the same algorithm. The routing function assigns input data to the best experts. It is implemented by a Router Network, so it is trainable and not fixed. To speed up the inference time a sparse gating function is used, which assigns the input only to the top-K experts. [[8]](#8) 
+A MoE Layer takes the data from the previous layer as input data and outputs sum kind of weighted combination of the outputs of the experts and sometimes also a skip connection.[[9]](#9)
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ce125e88-cd7f-4d73-9bed-7e92494039e0">
 
 Image from Hugging Face [[9]](#9)
 
-In Transformer blocks the MoE layer is normally implemented by replacing the MLP/FFN after the Attention Layer as shown in the image above. \
+Now let me walk you through the path of the input data in these two models. \
+First the data goes through the Self-Attention layer [[11]](#11), which is the same for both. After that it goes through the Add + Normalize layer, also the same for both. \
+But in the next layer is a difference: The non MoE model just passes the data through the single FFN layer while the model with MoE first passes the data through the Router, which than assigns a number of experts for it, in this example only one. As we can see with different input the Router can assign different FFNs. After the data went through the assigned FFN the output is calculated. \
+The last step, passing the data through the second Add + Normalize layer is again the same for both.
+
 The use of MoE can provide benefits like overall better performance, efficient pretraining or faster inference compared to the use of a single MLP/FFN.
 
 RAPHAEL Architecture
@@ -207,7 +210,7 @@ The image below shows the attention map from the transformer block and the edges
 
 Image from Xue et al. [[1]](#1)
 
-Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss [[12]](#12).
+Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[12]](#12)
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
