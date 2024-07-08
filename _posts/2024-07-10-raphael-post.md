@@ -61,7 +61,7 @@ Diffusion Models learn to predict noise and remove it to restore structure in da
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ca2a8f9b-b597-473c-af9d-9263b7f4cb41">
 
-Image from Jaskaran Bhatia [[4]](#4)
+Image from Steins [[4]](#4)
 
 As shown in the picture above, Diffusion Models constist of two parts, the forward diffusion process and the reverse diffusion process. 
 
@@ -80,7 +80,7 @@ For the prediction of the noise models typically use a modified UNet Neural Netw
 <img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/e72822b6-8866-4494-af7c-30b0365c55ca">
 
 
-Image from Kemal Erdem [[6]](#6)
+Image from Erdem [[6]](#6)
 
 An example for such an architecture for a text-conditional model is shown above. \
 It takes the total noise, the time step and text as input. \
@@ -161,7 +161,7 @@ A MoE Layer takes the data from the previous layer as input data and outputs sum
 Image from Hugging Face [[9]](#9)
 
 Now let me walk you through the path of the input data in these two models. \
-First the data goes through the Self-Attention layer [[11]](#11), which is the same for both. After that it goes through the Add + Normalize layer, also the same for both. \
+First the data goes through the Self-Attention layer [[12]](#12), which is the same for both. After that it goes through the Add + Normalize layer, also the same for both. \
 But in the next layer is a difference: The non MoE model just passes the data through the single FFN layer while the model with MoE first passes the data through the Router, which than assigns a number of experts for it, in this example only one. As we can see with different input the Router can assign different FFNs. After the data went through the assigned FFN the output is calculated. \
 The last step, passing the data through the second Add + Normalize layer is again the same for both.
 
@@ -253,7 +253,7 @@ The image below shows the attention map from the transformer block and the edges
 
 Image from Xue et al. [[1]](#1)
 
-Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[11]](#11)
+Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[13]](#13)
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
@@ -317,7 +317,7 @@ Especially in comparison with the two popular models Stable Diffusion and DALL-E
 ======
 
 The most obvious advantage of the model is the more accurate text in the generated images and the overall higher image quality. As discussed in the experiments section, the Space-MoE improve the text allignment a lot. But all three key differences from RAPHAEL, the Space-MoE, the Time-MoE and the Edge-supervised Learning distribute equally to the image quality. This can be derived from the fact, that as in the experiments section discussed the models without one of them all peak at about the same FID-5k value. \
-On the other hand is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, so in total about 1.46 million A100 GPU hours, in comparison Stable Diffusion was trained for about 150,000 A100 GPU hours [[13]](#13). So the GPU usage for the training of RAPHAEL was about 10x the GPU usage for Stable Diffusion. \
+On the other hand is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, so in total about 1.46 million A100 GPU hours, in comparison Stable Diffusion was trained for about 150,000 A100 GPU hours [[10]](#10). So the GPU usage for the training of RAPHAEL was about 10x the GPU usage for Stable Diffusion. \
 Another advantage is that MoE Architectures make the models more efficient during inference due to sparse assignements. \
 The fact that the model is not open source is also a drawback, since it reduces the benefit for the research community.
 
@@ -378,7 +378,7 @@ Rombach, Robin et al. (Dec 2021),
 “High-Resolution Image Synthesis with Latent Diffusion Model”, 
 [IEEE/CVF conference on computer vision and pattern recognition 2022]("https://arxiv.org/abs/2112.10752")
 
-<a id="12">[11]</a>
+<a id="12">[12]</a>
 Vaswani, Ashish et al. (Jun 2017), 
 “Attention Is All You Need”, 
 [NeurIPS 2017]("https://arxiv.org/abs/1706.03762")
