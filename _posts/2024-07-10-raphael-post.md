@@ -141,9 +141,11 @@ Image from Hugging Face [[9]](#9)
 </head>
 <body>
     <div id="slider">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/b2d3ba64-8d6b-4b3f-8686-c9a0077e0343" class="active">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/95e10a1d-92fc-4d85-a268-fa47d888c83b">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/4dc00514-0be0-449d-9241-c80345cce960">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/67983031-1cd4-4b87-b04d-00756625ff40" class="active">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/1c555477-80ce-43a9-8b76-43248fb1e873">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/9031e76d-58a2-4437-a09a-1493d47a24aa">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/493563d5-83d6-48f1-baa4-7f801dfe7414">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/6c8c98bd-666f-4128-b949-5cb8aabfae28">
         <!-- Add more images as needed -->
     </div>
 
