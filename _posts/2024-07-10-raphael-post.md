@@ -113,11 +113,6 @@ In general Mixture of Experts (MoE) is the method of replacing a single FFN laye
 The experts (FFN) share the same architectur and are trained by the same algorithm. The routing function assigns input data to the best experts. It is implemented by a Router Network, so it is trainable and not fixed. To speed up the inference time a sparse gating function is used, which assigns the input only to the top-K experts. [[8]](#8) 
 A MoE Layer takes the data from the previous layer as input data and outputs sum kind of weighted combination of the outputs of the experts and sometimes also a skip connection.[[9]](#9)
 
-<img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ce125e88-cd7f-4d73-9bed-7e92494039e0">
-
-Image from Hugging Face [[9]](#9)
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -141,11 +136,11 @@ Image from Hugging Face [[9]](#9)
 </head>
 <body>
     <div id="slider">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/67983031-1cd4-4b87-b04d-00756625ff40" class="active">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/1c555477-80ce-43a9-8b76-43248fb1e873">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/9031e76d-58a2-4437-a09a-1493d47a24aa">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/493563d5-83d6-48f1-baa4-7f801dfe7414">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/6c8c98bd-666f-4128-b949-5cb8aabfae28">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/17aadd61-adeb-4c39-a736-2baebeed6859" class="active">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/57a1e46d-1703-414b-9e0c-d012d23882da">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/ccb5f911-468c-4cb4-8497-7b7628c0ee22">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/222cfdd1-6f12-4793-9fb3-48f167649653">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/96c01e91-0d66-45d3-90a2-895b3ac894d5">
         <!-- Add more images as needed -->
     </div>
 
@@ -162,6 +157,8 @@ Image from Hugging Face [[9]](#9)
     </script>
 </body>
 </html>
+
+Image from Hugging Face [[9]](#9)
 
 Now let me walk you through the path of the input data in these two models. \
 First the data goes through the Self-Attention layer [[11]](#11), which is the same for both. After that it goes through the Add + Normalize layer, also the same for both. \
