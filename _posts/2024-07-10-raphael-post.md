@@ -139,7 +139,7 @@ A MoE Layer takes the data from the previous layer as input data and outputs sum
         <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/17aadd61-adeb-4c39-a736-2baebeed6859" class="active">
         <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/57a1e46d-1703-414b-9e0c-d012d23882da">
         <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/9a23718a-1f32-4c52-91ed-1258790fd9ee">
-        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/222cfdd1-6f12-4793-9fb3-48f167649653">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/9a56900f-502a-45b2-9d3e-f5815d1aa468">
         <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/96c01e91-0d66-45d3-90a2-895b3ac894d5">
         <!-- Add more images as needed -->
     </div>
