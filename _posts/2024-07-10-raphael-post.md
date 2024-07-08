@@ -253,7 +253,7 @@ The image below shows the attention map from the transformer block and the edges
 
 Image from Xue et al. [[1]](#1)
 
-Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[12]](#12)
+Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[11]](#11)
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
@@ -331,28 +331,29 @@ References
 
 <a id="1">[1]</a> 
 Xue, Zeyue et al. (May 2023),
-"RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths". 
-[arXiv:2305.18295](https://arxiv.org/abs/2305.18295)
+"RAPHAEL: Text-to-Image Generation via Large Mixture of Diffusion Paths", 
+[NeurIPS 2023](https://arxiv.org/abs/2305.18295)
 
 <a id="2">[2]</a> 
 Adobe,
 [Generative Fill & Expand](https://helpx.adobe.com/photoshop/using/generative-fill.html)
 
 <a id="3">[3]</a> 
-Harris, Charlie (Jun 2023), 
-[Diffusion Models in Generative Chemistry for Drug Design](https://medium.com/@cch57/exploring-the-promise-of-generative-models-in-chemistry-an-introduction-to-diffusion-models-31530e9d1dcb)
+Hoogeboom, Emile et al. (Oct 2022), 
+"Equivariant Diffusion for Molecule Generation in 3D“,
+[ICML 2021](https://arxiv.org/abs/2203.17003)
 
 <a id="4">[4]</a> 
-Jaskaran Bhatia (Jul 2023), 
-[Summarizing the Evolution of Diffusion Models: Insight from Three Research Papers](https://medium.com/@jaskaranbhatia/summarizing-the-evolution-of-diffusion-models-insights-from-three-research-papers-6889339eba4)
+Steins (Dec 2022),
+[Diffusion Model Clearly Explained!](https://medium.com/p/cd331bd41166)
 
 <a id="5">[5]</a> 
-Jonathan Ho et al. (Dec 2020),
-"Denoising Diffusion Probabilistic Models",
-[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)
+Ho, Jonathan et al. (Dec 2020), 
+“Denoising Diffusion Probabilistic Models”, 
+[NeurIPS 2020]("https://arxiv.org/abs/2006.11239")
 
 <a id="6">[6]</a> 
-Kemal Erdem (Nov 2023),
+Erdem, Kemal (Nov 2023),
 [Step by Step visual introduction to Diffusion Models](https://erdem.pl/2023/11/step-by-step-visual-introduction-to-diffusion-models)
 
 <a id="7">[7]</a> 
@@ -362,25 +363,29 @@ Kemal Erdem (Nov 2023),
 <a id="8">[8]</a> 
 Zixiang Chen et al. (Aug 2022),
 "Towards Understanding Mixture of Experts in Deep Learning",
-[arXiv:2208.02813](https://arxiv.org/abs/2208.02813)
+[arXiv](https://arxiv.org/abs/2208.02813)
 
 <a id="9">[9]</a> 
 Hugging Face (Dec 2023),
 [Mixture of Experts Explained](https://huggingface.co/blog/moe)
 
 <a id="10">[10]</a> 
-Keras,
-[Focal Loss](https://keras.io/api/keras_cv/losses/focal_loss/#:~:text=Focal%20loss%20is%20a%20modified,to%20deal%20with%20class%20imbalance)
-
-<a id="11">[11]</a> 
-Keras,
-[AdamW](https://keras.io/api/optimizers/adamw/)
-
-<a id="12">[12]</a> 
-Ilya Loshchilov et al. (Jan 2019),
-"Decoupled Weight Decay Regularization",
-[arXiv:1711.05101](https://arxiv.org/abs/1711.05101)
-
-<a id="13">[13]</a> 
 Emad Mostaque (Aug 2020),
 [Post on X](https://x.com/emostaque/status/1563870674111832066)
+
+<a id="11">[11]</a> 
+Rombach, Robin et al. (Dec 2021), 
+“High-Resolution Image Synthesis with Latent Diffusion Model”, 
+[IEEE/CVF conference on computer vision and pattern recognition 2022]("https://arxiv.org/abs/2112.10752")
+
+<a id="12">[11]</a>
+Vaswani, Ashish et al. (Jun 2017), 
+“Attention Is All You Need”, 
+[NeurIPS 2017]("https://arxiv.org/abs/1706.03762")
+
+<a id="13">[13]</a>
+Lin, Tsung-Yi et al. (Aug 2017), 
+“Focal Loss for Dense Object Detection”, 
+[Proceedings of the IEEE International Conference on Computer Vision 2017]("https://arxiv.org/abs/1708.02002")
+
+
