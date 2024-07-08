@@ -253,7 +253,7 @@ The image below shows the attention map from the transformer block and the edges
 
 Image from Xue et al. [[1]](#1)
 
-Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[13]](#13)
+Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the predicted edge map $P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss. [[13]](#13)
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
