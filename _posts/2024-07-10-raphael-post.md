@@ -43,10 +43,10 @@ RAPHAEL has three main objectives:
 
 Image from Xue et al. [[1]](#1)
 
-The first objective, higher aesthetic appeal, is just a better looking image. As we can see with the images above, especially with the ones in the first row, RAPHAEL generates very aesthetic appealing images, especially compared to the other models.
+The first objective, higher aesthetic appeal, is just a better looking image. As we can see with the images above, particularly with the ones in the first row, RAPHAEL generates very aesthetic appealing images, especially compared to the other models.
 
 So what do I mean by "accurate reflection of concepts in generated images"? \
-A good example of that are the images in the second row. 
+A good example for that are the images in the second row. 
 The accurate reflection of the concepts in the text would be to generate an image with five cars that are on a road, as the text says.
 As we can see, RAPHAEL is the only model of the ones shown above that actually shows five cars and not less or more.
 
@@ -244,8 +244,8 @@ Image from Xue et al. [[1]](#1)
 <span style="color: #064273;">What is Edge-supervised Learning?</span>
 ------
 Edge-supervised Learing uses an edge detection module to extract boundary information, which is then used to supervise the model in preserving detailed image features. \
-The module takes the attention map M as input and is trained using the loss function $L_{edge}$. The output is the predicted edge map. \
-Since with larger timesteps t the attention map loses detail a hyperparameter is used to stop edge-supervised learning when t becomes too large.
+The module takes the attention map M as input and the output is the predicted edge map. \
+Since with larger timesteps t the attention map loses detail a hyperparameter $T_c$ is used to stop edge-supervised learning when t becomes too large.
 
 The image below shows the attention map from the transformer block and the edges extracted by the edge detector next to the image.
 
