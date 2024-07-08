@@ -151,6 +151,10 @@ Image from Xue et al. [[1]](#1)
 
 For an intuitive understanding you can think of the different paths which the MoEs produce as different "painters" which are all responsible for a different point of the image, as the authors of the paper write.
 
+As a loss function RAPHAEL uses the following combined loss function $L = L_{\mathrm{denoise}} + L_{\mathrm{edge}}$.
+The second part $L_{\mathrm{edge}}$ is computed by the Edge-supervised Learning, I will explain it later in the section about Edge-supervised Learning.
+For the first part $L_{\mathrm{denoise}} = E_{t,x_0,ϵ∼N(0,I)} ∥ϵ − D_θ (x_t, t)∥^2_2$ represents the expected squared difference of the predicted noise and the actual noise in the image, since the actual noise is normally distributed with a mean of 0 and a variance of 1.
+
 What are Time-MoE?
 ------
 Time-MoE are MoE Layers which assign the image in different denoising time steps to different expert models. 
@@ -163,7 +167,7 @@ A Time-MoE layer constists of a Text Gate Network and the expert models as shown
 
 Image from Xue et al. [[1]](#1)
 
-The Time Gate Network is implemented as a feed forward network and chooses experts for the different features, this can be formulated with $h\prime(x) = te_{t_{router}(t_i)}(h_c(x_t))$ where $h_c(x_t)$ represents the features from the Cross Attention layer and $t_{router}(t_i)=argmax(softmax(G′(E′_θ(t_i))+ϵ))$ which returns the index of the chosen expert. In the formula $te_i$ represents the differen experts. \
+The Time Gate Network is implemented as a feed forward network and chooses experts for the different features, this can be formulated with $h\prime(x) = te_{t_{\mathrm{router}}(t_i)}(h_c(x_t))$ where $h_c(x_t)$ represents the features from the Cross Attention layer and $t_{\mathrm{router}}(t_i)=\mathrm{argmax}(\mathrm{softmax}(G′(E′_θ(t_i))+ϵ))$ which returns the index of the chosen expert. In the formula $te_i$ represents the differen experts. \
 An example of the result of the assignments can be seen in the image below:
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/8eca0dbc-7edc-4985-bfaa-1440bc4df51e">
@@ -175,7 +179,7 @@ What are Space-MoE?
 Space-MoE is a MoE Layer which assigns specific text tokens to their corresponding image regions. \
 The layer takes the data from the Time-MoE layer as input. \
 The output of the Space-MoE Layer is built by taking the mean of all expert models, calculated by the following formula: 
-$\frac{1}{n_y} \Sigma_{i=1}^{n_y} e_{route(y_i)}(h′(x_t) \cdot M_i)$. $M_i$ is a binary two-dimensional matrix which can be understood as the image region the i-th text token should correspond to. $\cdot$ is the hadamard product and $h\prime(x_t)$ are the features from the Time-MoE layer.  
+$\frac{1}{n_y} \Sigma_{i=1}^{n_y} e_{\mathrm{route}(y_i)}(h′(x_t) \cdot M_i)$. $M_i$ is a binary two-dimensional matrix which can be understood as the image region the i-th text token should correspond to. $\cdot$ is the hadamard product and $h\prime(x_t)$ are the features from the Time-MoE layer.  
 
 A Space-MoE layer constists of a Text Gate Network and the expert models as shown in the image below. It takes text as input.
 
@@ -183,7 +187,7 @@ A Space-MoE layer constists of a Text Gate Network and the expert models as show
 
 Image from Xue et al. [[1]](#1)
 
-The Text Gate Network does the assignment using the formula \$route(y_i)=argmax(softmax(G(E_θ(y_i))+ϵ))\$ which returns the index of the corresponding expert.
+The Text Gate Network does the assignment using the formula \$\mathrm{route}(y_i)=\mathrm{argmax}(\mathrm{softmax}(G(E_θ(y_i))+ϵ))\$ which returns the index of the corresponding expert.
 It is implemented as a feed forward network with text tokens as input. \
 As a result of the Space-MoE Layer, as shown in the picture below, different categories activate different diffusion paths 
 
@@ -202,6 +206,8 @@ The image below shows the attention map from the transformer block and the edges
 <img width="750" alt="image" src="https://github.com/Florian-de/floriandreyer.github.io/assets/64322175/74df4905-9526-4a0f-aaa6-a7faa9e8b7fa">
 
 Image from Xue et al. [[1]](#1)
+
+Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{edge}})$, it is calculated using the computed predicted edge map $(P_θ(M)$ and the edge map from the ground truth $I_{\mathrm{edge}}$ from which we take the focal loss [[12]](#12).
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
