@@ -117,7 +117,7 @@ A MoE Layer takes the data from the previous layer as input data and outputs sum
 
 Image from Hugging Face [[9]](#9)
 
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
