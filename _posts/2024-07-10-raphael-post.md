@@ -117,6 +117,50 @@ A MoE Layer takes the data from the previous layer as input data and outputs sum
 
 Image from Hugging Face [[9]](#9)
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        #slider {
+            max-width: 750px;
+            max-height: 450px;
+            margin: auto;
+        }
+        #slider img {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+        #slider img.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="slider">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/b2d3ba64-8d6b-4b3f-8686-c9a0077e0343" class="active">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/95e10a1d-92fc-4d85-a268-fa47d888c83b">
+        <img src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/4dc00514-0be0-449d-9241-c80345cce960">
+        <!-- Add more images as needed -->
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll('#slider img');
+        const totalImages = images.length;
+
+        setInterval(() => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % totalImages;
+            images[currentIndex].classList.add('active');
+        }, 1000); // Change image every 3 seconds
+    </script>
+</body>
+</html>
+
 Now let me walk you through the path of the input data in these two models. \
 First the data goes through the Self-Attention layer [[11]](#11), which is the same for both. After that it goes through the Add + Normalize layer, also the same for both. \
 But in the next layer is a difference: The non MoE model just passes the data through the single FFN layer while the model with MoE first passes the data through the Router, which than assigns a number of experts for it, in this example only one. As we can see with different input the Router can assign different FFNs. After the data went through the assigned FFN the output is calculated. \
