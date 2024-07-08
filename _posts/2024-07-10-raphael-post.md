@@ -230,10 +230,23 @@ This results makes sense since a larger number of experts increases the number o
 
 Experiments
 ======
-
-# TODO
+For this section I chose three images from the paper which the authors generated with RAPHAEL. \
+We will come back to the main objectives of RAPHAEL and see why these images fulfill them. 
 
 <img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/118267ec-fff4-4bc6-ad7f-58c2a306a9eb">
+
+Image from Xue et al. [[1]](#1)
+
+The first objective was a higher aesthetic appeal. \
+With the three images below we can see that they are very aesthetic appealing and have a very high overall quality. 
+The images also show that RAPHAEL is capable of generating images with different styles, so not only photorealistic or cartoon style but many different. 
+
+The second objective was accurate reflection of concepts in generated images. \
+I think the second image is a great example for that, if you go through the text that was used to generate the image you can find all the concepts like the waterfalls, streams or pools of golden glowing bioluminescent water from the text in the generated image.
+
+For the third objective, accurately representing text in generated images, there are no further examples in the paper, but I think the image below from the beginning shows that the model is able to achieve this objective. 
+
+<img width="750" alt="image" src="https://github.com/Florian-Dreyer/Florian-Dreyer.github.io/assets/64322175/9bca3a4b-94df-4516-be55-2282502a2363">
 
 Image from Xue et al. [[1]](#1)
 
