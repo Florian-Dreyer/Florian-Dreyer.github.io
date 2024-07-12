@@ -21,9 +21,9 @@ In recent years Generative Artificial Intelligence has gained a lot of popularit
 In this blog post, I aim to introduce and explain a new model, RAPHAEL, which outperforms models like Stable Diffusion and focuses on accurately displaying text in the generated images [[1]](#1). \
 I will start with the motivation behind Diffusion Models and RAPHAEL in specific, after that I will give you some background knowlegde about Diffusion Models and Mixture of Experts. Than I will explain the architecture of RAPHAEL to you followed by an ablation study and some experiments. Next I will show you a benchmark which compares RAPHAEL to other models. Finally I will go into discussion about the model.
 
-## Table of Contents
+## Outlook
 1. [Why Diffusion Models?](#Why-Diffusion-Models)
-2. [Section 1](#section-1)
+2. [Why RAPHAEL](#Why-RAPHAEL)
    - [Subsection 1.1](#subsection-11)
    - [Subsection 1.2](#subsection-12)
 3. [Section 2](#section-2)
@@ -46,7 +46,7 @@ A more radical application for Diffusion Models is in the field of chemistry whe
 
 Image from Hoogeboom et al. [[3]](#3)
 
-<span style="color: #064273;">Why RAPHAEL?</span>
+## Why RAPHAEL?
 ======
 RAPHAEL has three main objectives:
 * Higher aesthetic appeal
