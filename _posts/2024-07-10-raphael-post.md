@@ -25,22 +25,22 @@ In this blog post, I aim to introduce and explain a new model, RAPHAEL, which ou
 I will start with the motivation behind Diffusion Models and RAPHAEL in specific, after that I will give you some background knowlegde about Diffusion Models and Mixture of Experts. Than I will explain the architecture of RAPHAEL to you followed by an ablation study and some experiments. Next I will show you a benchmark which compares RAPHAEL to other models. Finally I will go into discussion about the model.
 
 # Outlook
-1. [Why Diffusion Models?](#Why-Diffusion-Models)
-2. [Why RAPHAEL](#Why-RAPHAEL)
-3. [Background - What is a Diffusion Model?](#Background---What-is-a-Diffusion-Model?)
-   - [Forward diffusion process](#Forward-diffusion-process)
-   - [Reverse diffusion process](#Reverse-diffusion-process)
-5. [Background - What are Mixture of Experts?](#Background---What-are-Mixture-of-Experts?)
-6. [RAPHAEL Architecture](#RAPHAEL-Architecture)
-   - [The Transformer Block](#The-Transformer-Block)
+1. [Why Diffusion Models?](#why-diffusion-models)
+2. [Why RAPHAEL](#why-raphael)
+3. [Background - What is a Diffusion Model?](#background---what-is-a-diffusion-model)
+   - [Forward diffusion process](#forward-diffusion-process)
+   - [Reverse diffusion process](#reverse-diffusion-process)
+5. [Background - What are Mixture of Experts?](#background---what-are-mixture-of-experts)
+6. [RAPHAEL Architecture](#rephael-architecture)
+   - [The Transformer Block](#the-transformer-block)
    - [What are Time-MoE?](#what-are-time-moe)
    - [What are Space-MoE?](#what-are-space-moe)
-   - [What is Edge-supervised Learning?](#What-is-Edge-supervised-Learning?)
-7. [Ablation Study](#Ablation-Study)
-8. [Experiments](#Experiments)
-9. [Benchmarks](#Benchmarks)
-10. [Discussion](#Discussion)
-11. [References](#References)
+   - [What is Edge-supervised Learning?](#what-is-edge-supervised-learning)
+7. [Ablation Study](#ablation-study)
+8. [Experiments](#experiments)
+9. [Benchmarks](#benchmarks)
+10. [Discussion](#discussion)
+11. [References](#references)
 
 # Why Diffusion Models?
 
