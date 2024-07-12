@@ -33,8 +33,8 @@ I will start with the motivation behind Diffusion Models and RAPHAEL in specific
 5. [Background - What are Mixture of Experts?](#Background---What-are-Mixture-of-Experts?)
 6. [RAPHAEL Architecture](#RAPHAEL-Architecture)
    - [The Transformer Block](#The-Transformer-Block)
-   - [What are Time-MoE?](#What-are-Time-MoE?)
-   - [What are Space-MoE?](#What-are-Space-MoE?)
+   - [What are Time-MoE?](#what-are-time-moe)
+   - [What are Space-MoE?](#what-are-space-moe)
    - [What is Edge-supervised Learning?](#What-is-Edge-supervised-Learning?)
 7. [Ablation Study](#Ablation-Study)
 8. [Experiments](#Experiments)
@@ -43,6 +43,7 @@ I will start with the motivation behind Diffusion Models and RAPHAEL in specific
 11. [References](#References)
 
 # Why Diffusion Models?
+
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/de53ddee-3e90-4cae-97ee-e27ac328fca9">
