@@ -17,6 +17,9 @@ tags:
     text-decoration: none; /* Remove underline */
     border-bottom: none; /* Remove any bottom border */
   }
+  h1, h2 {
+    color: #064273;
+  }
 </style>
   
 In recent years Generative Artificial Intelligence has gained a lot of popularity. More and more people use it in their daily and professional life. Diffusion Models became popular with models like Stable Diffusion and DALL-E which showed the public what Diffusion Models are able to do. \
@@ -41,7 +44,7 @@ I will start with the motivation behind Diffusion Models and RAPHAEL in specific
 10. [Discussion](#discussion)
 11. [References](#references)
 
-# Why Diffusion Models? {.styled-heading}
+# Why Diffusion Models? 
 
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
 
@@ -58,7 +61,7 @@ A more radical application for Diffusion Models is in the field of chemistry whe
 
 Image from Hoogeboom et al. [[3]](#3)
 
-# Why RAPHAEL? {.styled-heading}
+# Why RAPHAEL? 
 
 RAPHAEL has three main objectives:
 * Higher aesthetic appeal
