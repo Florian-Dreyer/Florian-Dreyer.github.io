@@ -11,11 +11,25 @@ tags:
   - Generative Model
 ---
 
+<style>
+  h2 {
+    color: #064273;
+  }
+</style>
+
 In recent years Generative Artificial Intelligence has gained a lot of popularity. More and more people use it in their daily and professional life. Diffusion Models became popular with models like Stable Diffusion and DALL-E which showed the public what Diffusion Models are able to do. \
 In this blog post, I aim to introduce and explain a new model, RAPHAEL, which outperforms models like Stable Diffusion and focuses on accurately displaying text in the generated images [[1]](#1). \
 I will start with the motivation behind Diffusion Models and RAPHAEL in specific, after that I will give you some background knowlegde about Diffusion Models and Mixture of Experts. Than I will explain the architecture of RAPHAEL to you followed by an ablation study and some experiments. Next I will show you a benchmark which compares RAPHAEL to other models. Finally I will go into discussion about the model.
 
-<span style="color: #064273;">Why Diffusion Models?</span>
+## Table of Contents
+1. [Why Diffusion Models?](#Why-Diffusion-Models)
+2. [Section 1](#section-1)
+   - [Subsection 1.1](#subsection-11)
+   - [Subsection 1.2](#subsection-12)
+3. [Section 2](#section-2)
+4. [Conclusion](#conclusion)
+
+## Why Diffusion Models?
 ======
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
 
