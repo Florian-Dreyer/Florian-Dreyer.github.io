@@ -12,6 +12,9 @@ tags:
 ---
 
 <style>
+  h1 {
+    color: #064273;
+  }
   h2 {
     color: #064273;
   }
@@ -21,13 +24,23 @@ In recent years Generative Artificial Intelligence has gained a lot of popularit
 In this blog post, I aim to introduce and explain a new model, RAPHAEL, which outperforms models like Stable Diffusion and focuses on accurately displaying text in the generated images [[1]](#1). \
 I will start with the motivation behind Diffusion Models and RAPHAEL in specific, after that I will give you some background knowlegde about Diffusion Models and Mixture of Experts. Than I will explain the architecture of RAPHAEL to you followed by an ablation study and some experiments. Next I will show you a benchmark which compares RAPHAEL to other models. Finally I will go into discussion about the model.
 
-## Outlook
+# Outlook
 1. [Why Diffusion Models?](#Why-Diffusion-Models)
 2. [Why RAPHAEL](#Why-RAPHAEL)
-   - [Subsection 1.1](#subsection-11)
-   - [Subsection 1.2](#subsection-12)
-3. [Section 2](#section-2)
-4. [Conclusion](#conclusion)
+3. [Background - What is a Diffusion Model?](#Background---What-is-a-Diffusion-Model?)
+   - [Forward diffusion process](#Forward-diffusion-process)
+   - [Reverse diffusion process](#Reverse-diffusion-process)
+5. [Background - What are Mixture of Experts?](#Background---What-are-Mixture-of-Experts?)
+6. [RAPHAEL Architecture](#RAPHAEL-Architecture)
+   - [The Transformer Block](#The-Transformer-Block)
+   - [What are Time-MoE?](#What-are-Time-MoE?)
+   - [What are Space-MoE?](#What-are-Space-MoE?)
+   - [What is Edge-supervised Learning?](#What-is-Edge-supervised-Learning?)
+7. [Ablation Study](#Ablation-Study)
+8. [Experiments](#Experiments)
+9. [Benchmarks](#Benchmarks)
+10. [Discussion](#Discussion)
+11. [References](#References)
 
 # Why Diffusion Models?
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
@@ -45,8 +58,8 @@ A more radical application for Diffusion Models is in the field of chemistry whe
 
 Image from Hoogeboom et al. [[3]](#3)
 
-## Why RAPHAEL?
-======
+# Why RAPHAEL?
+
 RAPHAEL has three main objectives:
 * Higher aesthetic appeal
 * Accurate reflection of concepts in generated images
@@ -68,8 +81,8 @@ The third row is a great example of that.
 Many Diffusion Models fail at displaying text in the generated images, they often just create fantasy text.
 RAPHAEL successfully displays the word "RAPHAEL" in the image as the text says, in comparison other models like DALL-E2 make up words like "Raahel".
 
-<span style="color: #064273;">Background - What is a Diffusion Model?</span>
-======
+# Background - What is a Diffusion Model?
+
 Diffusion Models learn to predict noise and remove it to restore structure in data.
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/ca2a8f9b-b597-473c-af9d-9263b7f4cb41">
@@ -78,15 +91,15 @@ Image from Steins [[4]](#4)
 
 As shown in the picture above, Diffusion Models constist of two parts, the forward diffusion process and the reverse diffusion process. 
 
-<span style="color: #064273;">Forward diffusion process</span>
-------
+## Forward diffusion process
+
 In the forward diffusion process the model takes an image as input and adds step by step random noise to the image starting with the input image $x_0$ and ending in pure noise $x_t$. \
 In each step the process is defined as $q(x_t|x_{t−1}) := \mathcal{N}(x_t; \sqrt{1 − \beta_t}x_{t−1},\beta_tI)$ where $q$ is the process, $x_t$ the output of the current step, $x_{t-1}$ the output of the previous step and $\mathcal{N}$ the normal distribution with $\sqrt{1 − β_t}x_{t−1}$ as the mean $\mu$ and $\beta_tI$ as the variance $\sigma^2$. \
 During this process $\beta_t$ is controlled by a schedule and has values in the range of 0 and 1. Such a schedule could be as simple as a linear schedule which would increase $\beta_t$ by a constant size each step, but in practice more advanced schedules are used. \
 For efficient computation the entire process from $x_0$ to $x_t$ can be calculated using a closed form $q(x_t|x_0) = \mathcal{N}(x_t;\sqrt{\bar\alpha_t}x_0, (1 − \bar\alpha_t)I)$ where $\alpha_t := 1 − β_t$ and $\bar\alpha_t := \Pi^{t}_{s=1} \alpha_s$ [[5]](#5).
 
-<span style="color: #064273;">Reverse diffusion process</span>
-------
+## Reverse diffusion process
+
 In the reverse diffusion process the model tries to predict the total noise for each timestep starting with the pure noise $x_t$ and ending in a denoised image $x_0$. \
 For the prediction of the noise models typically use a modified UNet Neural Network Architecture. 
 
@@ -120,8 +133,8 @@ The output is the predicted total noise in the image $\epsilon_{\theta}(x_t, t)$
 To get to $x_{t-1}$ we follow the computation shown on the right side of the image above. \
 We take the input $x_t$ and subtract a part, but only a part, of the predicted noise $\epsilon_{\theta}(x_t, t)$ from it. The details of this computation are shown in the formula in the image above.
 
-<span style="color: #064273;">Background - What are Mixture of Experts?</span>
-======
+# Background - What are Mixture of Experts?
+
 In general Mixture of Experts (MoE) is the method of replacing a single FFN layer with an expert layer consisting of a Router and multiple FFN and therefore dividing a problem. \
 The experts (FFN) share the same architectur and are trained by the same algorithm. The routing function assigns input data to the best experts. It is implemented by a Router Network, so it is trainable and not fixed. To speed up the inference time a sparse gating function is used, which assigns the input only to the top-K experts. [[8]](#8) 
 A MoE Layer takes the data from the previous layer as input data and outputs sum kind of weighted combination of the outputs of the experts and sometimes also a skip connection.[[9]](#9)
@@ -180,8 +193,7 @@ The last step, passing the data through the second Add + Normalize layer is agai
 
 The use of MoE can provide benefits like overall better performance, efficient pretraining or faster inference compared to the use of a single MLP/FFN.
 
-<span style="color: #064273;">RAPHAEL Architecture</span>
-======
+# RAPHAEL Architecture
 
 As explained earlier, in general a Diffusion Model consists of two parts: the forward diffusion process and the reverse diffusion process.
 
@@ -199,8 +211,8 @@ It takes noise and text as input and outputs images.
 Now you may ask yourself "But where is the difference to the previously described general Diffusion Models?" and the answer to that are the Transformer Blocks.
 The UNet architecture deployed in the RAPHAEL model consists of 16 transformer blocks, and I will now go into detail about them.
 
-<span style="color: #064273;">The Transformer Block</span>
-------
+## The Transformer Block
+
 Every transformer block consists of four key components, the Self Attention layer, the Cross Attention layer, the Time-MoE layer and the Space-MoE layer as image below shows.
 
 
@@ -214,8 +226,8 @@ As a loss function RAPHAEL uses the following combined loss function $L = L_{\ma
 The second part $L_{\mathrm{edge}}$ is computed by the Edge-supervised Learning, I will explain it later in the section about Edge-supervised Learning.
 For the first part $L_{\mathrm{denoise}} = E_{t,x_0,ϵ∼N(0,I)} ∥ϵ − D_θ (x_t, t)∥^2_2$ represents the expected squared difference of the predicted noise and the actual noise in the image, since the actual noise is normally distributed with a mean of 0 and a variance of 1.
 
-<span style="color: #064273;">What are Time-MoE?</span>
-------
+## What are Time-MoE?
+
 Time-MoE are MoE layers which assign the image in different denoising time steps to different expert models. 
 
 The Time-MoE Layer takes the feature data from the Cross Attention layer as input. The output of the layer is the output of the selected expert. \
@@ -233,8 +245,8 @@ An example of the result of the assignments can be seen in the image below:
 
 Image from Xue et al. [[1]](#1)
 
-<span style="color: #064273;">What are Space-MoE?</span>
-------
+## What are Space-MoE?
+
 Space-MoE is a MoE layer which assigns specific text tokens to their corresponding image regions. \
 The layer takes the data from the Time-MoE layer as input. \
 The output of the Space-MoE Layer is built by taking the mean of all expert models, calculated by the following formula: 
@@ -254,8 +266,8 @@ As a result of the Space-MoE Layer, as shown in the picture below, different cat
 
 Image from Xue et al. [[1]](#1)
 
-<span style="color: #064273;">What is Edge-supervised Learning?</span>
-------
+## What is Edge-supervised Learning?
+
 Edge-supervised Learing uses an edge detection module to extract boundary information, which is then used to supervise the model in preserving detailed image features. \
 The module takes the attention map M as input and the output is the predicted edge map. \
 Since with larger timesteps t the attention map loses detail a hyperparameter $T_c$ is used to stop edge-supervised learning when t becomes too large.
@@ -270,8 +282,7 @@ Now to the loss function $L_{\mathrm{edge}} = \mathrm{Focal}(P_θ(M),I_{\mathrm{
 
 (d) shows that nearly twice as much people prefer the results of the model using Edge-supervised Learning than people prefering the model without it.
 
-<span style="color: #064273;">Ablation Study</span>
-======
+# Ablation Study
 
 The LAION-5B and some more internal datasets are used for the ablation study. Images from LAION-5B were previously filtered using the same aesthetic scorer as Stable Diffusion, only images with a score of at least 4.7 and without watermarks are used. The text description from the LAION-5B datasets were cleaned by removing useless information, for example HTML tags.  
 
@@ -293,8 +304,8 @@ This shows that a larger number of both Space-MoE and Time-MoE has a positive ef
 But on the other hand the computational complexity grows with an increasing number of experts. \
 This results make sense since a larger number of experts increases the number of computations and therefore slows down the model. But overall a model using a sparse MoE approach such as RAPHAEL does will usually be more effient than a model using just a single more complex FFN/MLP. 
 
-<span style="color: #064273;">Experiments</span>
-======
+# Experiments
+
 For this section I chose three images from the paper which the authors generated with RAPHAEL. \
 We will come back to the main objectives of RAPHAEL and see why these images fulfill them. 
 
@@ -315,8 +326,8 @@ For the third objective, accurately representing text in generated images, there
 
 Image from Xue et al. [[1]](#1)
 
-<span style="color: #064273;">Benchmarks</span>
-======
+# Benchmarks
+
 For benchmarking 30,000 images from the MS-COCO 256 x 256 dataset and the zero-shot Frechet Inception Distance (FID) were used. The FID score is usually calculated using the Inception v3 model which compares the original dataset to the generated one in quality and diversity. 
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/a226c0c8-8725-4466-bb76-d4c03b79db10">
@@ -326,8 +337,7 @@ Image from Xue et al. [[1]](#1)
 The table shows that RAPHAEL outperforms all competitors on the Zero-shot FID-30k. \
 Especially in comparison with the two popular models Stable Diffusion and DALL-E it beets them by 21% and 37%.
 
-<span style="color: #064273;">Discussion</span>
-======
+# Discussion
 
 The most obvious advantage of the model is the more accurate text in the generated images and the overall higher image quality. As discussed in the experiments section, the Space-MoE improve the text alignment a lot. But all three key differences from RAPHAEL, the Space-MoE, the Time-MoE and the Edge-supervised Learning distribute equally to the image quality. This can be derived from the fact, that as in the experiments section discussed the models without one of them all peak at about the same FID-5k value. \
 On the other hand is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, so in total about 1.46 million A100 GPU hours, in comparison Stable Diffusion was trained for about 150,000 A100 GPU hours [[10]](#10). The GPU usage for the training of RAPHAEL was about 10x the GPU usage for Stable Diffusion. \
@@ -339,8 +349,7 @@ The generation of videos would open completely new usecases for the model.
 
 To sum it up RAPHAEL can generate images with accurate text representation, accurate reflection of concepts and aesthetic appeal beating competitors like Stable Diffusion or Dall-E2.
 
-<span style="color: #064273;">References</span>
-======
+# References
 
 <a id="1">[1]</a> 
 Xue, Zeyue et al. (May 2023),
