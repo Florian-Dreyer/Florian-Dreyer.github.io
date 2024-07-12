@@ -31,7 +31,7 @@ I will start with the motivation behind Diffusion Models and RAPHAEL in specific
    - [Forward diffusion process](#forward-diffusion-process)
    - [Reverse diffusion process](#reverse-diffusion-process)
 5. [Background - What are Mixture of Experts?](#background---what-are-mixture-of-experts)
-6. [RAPHAEL Architecture](#rephael-architecture)
+6. [RAPHAEL Architecture](#raphael-architecture)
    - [The Transformer Block](#the-transformer-block)
    - [What are Time-MoE?](#what-are-time-moe)
    - [What are Space-MoE?](#what-are-space-moe)
