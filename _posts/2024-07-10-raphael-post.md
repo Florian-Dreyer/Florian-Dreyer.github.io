@@ -29,8 +29,7 @@ I will start with the motivation behind Diffusion Models and RAPHAEL in specific
 3. [Section 2](#section-2)
 4. [Conclusion](#conclusion)
 
-## Why Diffusion Models?
-======
+# Why Diffusion Models?
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
 
 <img width="750" alt="image" src="https://github.com/Florian-de/Florian-de.github.io/assets/64322175/de53ddee-3e90-4cae-97ee-e27ac328fca9">
