@@ -11,20 +11,17 @@ tags:
   - Generative Model
 ---
 
-<style>
-  h1 {
-    color: #064273;
-  }
-  h2 {
-    color: #064273;
-  }
-</style>
+.styled-heading { 
+  color: #064273;
+  text-decoration: none; /* Remove underline */
+  border-bottom: none; /* Remove any bottom border */
+}
 
 In recent years Generative Artificial Intelligence has gained a lot of popularity. More and more people use it in their daily and professional life. Diffusion Models became popular with models like Stable Diffusion and DALL-E which showed the public what Diffusion Models are able to do. \
 In this blog post, I aim to introduce and explain a new model, RAPHAEL, which outperforms models like Stable Diffusion and focuses on accurately displaying text in the generated images [[1]](#1). \
 I will start with the motivation behind Diffusion Models and RAPHAEL in specific, after that I will give you some background knowlegde about Diffusion Models and Mixture of Experts. Than I will explain the architecture of RAPHAEL to you followed by an ablation study and some experiments. Next I will show you a benchmark which compares RAPHAEL to other models. Finally I will go into discussion about the model.
 
-# Outlook
+# Outlook {.styled-heading}
 1. [Why Diffusion Models?](#why-diffusion-models)
 2. [Why RAPHAEL](#why-raphael)
 3. [Background - What is a Diffusion Model?](#background---what-is-a-diffusion-model)
@@ -42,7 +39,7 @@ I will start with the motivation behind Diffusion Models and RAPHAEL in specific
 10. [Discussion](#discussion)
 11. [References](#references)
 
-# Why Diffusion Models?
+# Why Diffusion Models? {.styled-heading}
 
 Have you ever taken a picture of something and later wanted to have more background or just a larger picture? Diffusion Models can be used to solve this problem, for example Adobe has introduced a Diffusion Model called "Adobe Firefly 3 Model" which can expand the image and even add new objects or remove objects from the picture. 
 
@@ -59,7 +56,7 @@ A more radical application for Diffusion Models is in the field of chemistry whe
 
 Image from Hoogeboom et al. [[3]](#3)
 
-# Why RAPHAEL?
+# Why RAPHAEL? {.styled-heading}
 
 RAPHAEL has three main objectives:
 * Higher aesthetic appeal
