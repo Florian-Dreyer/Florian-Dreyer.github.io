@@ -339,7 +339,7 @@ Especially in comparison with the two popular models, Stable Diffusion and DALL-
 # Discussion
 
 The most obvious advantage of the model is the more accurate text in the generated images and the overall higher image quality. As discussed in the experiments section, the Space-MoE improve the text alignment significantly. However, all three key differences from RAPHAEL: The Space-MoE, the Time-MoE and the Edge-supervised Learning contribute equally to the image quality. This can be derived from the fact that, as discussed in the experiments section, the models without one of these components all peak at about the same FID-5k value. \
-On the other hand, there is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, totaling about 1.46 million A100 GPU hours. In comparison, Stable Diffusion was trained for about 150,000 A100 GPU hours [[10]](#10). The GPU usage for the training of RAPHAEL was about 10 times the GPU usage for Stable Diffusion. \
+On the other hand, there is the high GPU usage for the training. The model was trained on 1,000 NVIDIA A100s for two months, totaling about 1.46 million A100 GPU hours. In comparison, Stable Diffusion was trained for about 150,000 A100 GPU hours [[10]](#10) [[11]](#11). The GPU usage for the training of RAPHAEL was about 10 times the GPU usage for Stable Diffusion. \
 Another advantage is that the MoE architecture makes the models more efficient during inference due to sparse assignments. \
 However, the fact that the model is not open source is also a drawback, as it reduces the benefit for the research community.
 
